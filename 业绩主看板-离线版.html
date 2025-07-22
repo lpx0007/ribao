@@ -3,6 +3,7 @@
     <html>
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>711销售业绩数据看板</title>
         <style>
             body {
@@ -51,15 +52,40 @@
             .tabs {
                 display: flex;
                 border-bottom: 1px solid #e0e0e0;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
             .tab {
                 padding: 10px 20px;
                 cursor: pointer;
                 border-bottom: 2px solid transparent;
+                white-space: nowrap;
+                flex-shrink: 0;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
             .tab.active {
                 border-bottom: 2px solid #4a6fa5;
                 color: #4a6fa5;
+            }
+
+            /* 移动端标签页优化 */
+            @media (max-width: 768px) {
+                .tab {
+                    padding: 12px 16px;
+                    font-size: 14px;
+                    min-height: 48px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .tab {
+                    padding: 15px 12px;
+                    font-size: 13px;
+                    min-height: 50px;
+                }
             }
             .tab-content {
                 display: none;
@@ -79,15 +105,75 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 20px;
             }
+
+            /* 移动端适配样式 */
             @media (max-width: 768px) {
+                .container {
+                    padding: 10px;
+                }
                 .grid {
                     grid-template-columns: 1fr;
+                    gap: 15px;
+                }
+                .header {
+                    padding: 15px 10px;
+                }
+                .header h1 {
+                    font-size: 20px;
+                }
+                .card-header h2 {
+                    font-size: 16px;
+                }
+                .card-body {
+                    padding: 15px;
+                }
+                .chart {
+                    height: 300px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .container {
+                    padding: 5px;
+                }
+                .header {
+                    padding: 10px 5px;
+                }
+                .header h1 {
+                    font-size: 18px;
+                }
+                .card-header {
+                    padding: 8px 15px;
+                }
+                .card-header h2 {
+                    font-size: 14px;
+                }
+                .card-body {
+                    padding: 10px;
+                }
+                .chart {
+                    height: 250px;
                 }
             }
             .kpi-cards {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
                 gap: 15px;
+            }
+
+            /* 移动端KPI卡片优化 */
+            @media (max-width: 768px) {
+                .kpi-cards {
+                    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                    gap: 10px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .kpi-cards {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 8px;
+                }
             }
             .kpi-card {
                 background-color: white;
@@ -101,10 +187,38 @@
                 font-weight: bold;
                 color: #4a6fa5;
                 margin: 10px 0;
+                word-break: break-all;
             }
             .kpi-title {
                 font-size: 14px;
                 color: #666;
+            }
+
+            /* 移动端KPI卡片字体优化 */
+            @media (max-width: 768px) {
+                .kpi-card {
+                    padding: 12px;
+                }
+                .kpi-value {
+                    font-size: 20px;
+                    margin: 8px 0;
+                }
+                .kpi-title {
+                    font-size: 12px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .kpi-card {
+                    padding: 10px;
+                }
+                .kpi-value {
+                    font-size: 18px;
+                    margin: 6px 0;
+                }
+                .kpi-title {
+                    font-size: 11px;
+                }
             }
             .kpi-trend {
                 font-size: 12px;
@@ -252,7 +366,7 @@ var Vr={},Br={};var Fr=function(){function t(t,e,n){var i=this;this._sleepAfterS
     <body>
         <div class="header">
             <h1>711销售业绩数据看板</h1>
-            <p>最后更新时间：2025-07-11 19:48:06</p>
+            <p>最后更新时间：2025-07-22 13:57:54</p>
         </div>
         
         <div class="container">
@@ -355,7 +469,7 @@ var Vr={},Br={};var Fr=function(){function t(t,e,n){var i=this;this._sleepAfterS
                         <!-- 标签页已隐藏，使用整合显示 -->
                     </div>
                     <div class="chart-info" style="margin-bottom: 10px; color: #666; font-size: 14px;">
-                        💡 提示：点击图例可以显示/隐藏对应人员的曲线，鼠标悬停查看详细数据
+                        [TIP] 提示：点击图例可以显示/隐藏对应人员的曲线，鼠标悬停查看详细数据
                     </div>
                     <div class="chart" id="weekly-chart"></div>
                 </div>
@@ -423,7 +537,7 @@ var Vr={},Br={};var Fr=function(){function t(t,e,n){var i=this;this._sleepAfterS
                 </div>
                 <div class="card-body">
                     <div class="chart-info" style="margin-bottom: 10px; color: #666; font-size: 14px;">
-                        💡 提示：点击图例可以显示/隐藏对应人员的曲线，鼠标悬停查看详细数据
+                        [TIP] 提示：点击图例可以显示/隐藏对应人员的曲线，鼠标悬停查看详细数据
                     </div>
                     <div class="chart" id="weekly-new-customer-chart"></div>
                 </div>
@@ -470,6 +584,42 @@ var Vr={},Br={};var Fr=function(){function t(t,e,n){var i=this;this._sleepAfterS
             // 格式化数字
             function formatNumber(num) {
                 return num ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "-";
+            }
+
+            // 获取移动端优化的图表配置
+            function getMobileChartConfig() {
+                const isMobile = window.innerWidth <= 768;
+                const isSmallMobile = window.innerWidth <= 480;
+
+                return {
+                    grid: {
+                        left: isMobile ? '5%' : '3%',
+                        right: isMobile ? '5%' : '4%',
+                        bottom: isMobile ? '15%' : '8%',
+                        top: isMobile ? '15%' : '10%',
+                        containLabel: true
+                    },
+                    legend: {
+                        orient: 'horizontal',
+                        top: isMobile ? '5%' : 'top',
+                        textStyle: {
+                            fontSize: isSmallMobile ? 10 : (isMobile ? 11 : 12)
+                        }
+                    },
+                    axisLabelConfig: {
+                        interval: 0,
+                        rotate: isMobile ? 45 : 30,
+                        margin: isMobile ? 20 : 15,
+                        fontSize: isSmallMobile ? 9 : (isMobile ? 10 : 12),
+                        maxLength: isSmallMobile ? 3 : (isMobile ? 4 : 6)
+                    },
+                    tooltipConfig: {
+                        trigger: 'axis',
+                        textStyle: {
+                            fontSize: isSmallMobile ? 10 : (isMobile ? 11 : 12)
+                        }
+                    }
+                };
             }
             
             // 切换标签页
@@ -1118,10 +1268,13 @@ var Vr={},Br={};var Fr=function(){function t(t,e,n){var i=this;this._sleepAfterS
                     const channelConversionChart = echarts.init(document.getElementById('channel-conversion-chart'));
                     const channelAtvChart = echarts.init(document.getElementById('channel-atv-chart'));
                     
+                    // 获取移动端配置
+                    const mobileConfig = getMobileChartConfig();
+
                     // 渠道业绩图表配置
                     const channelRevenueOption = {
                         tooltip: {
-                            trigger: 'axis',
+                            ...mobileConfig.tooltipConfig,
                             axisPointer: {
                                 type: 'shadow'
                             },
@@ -1134,23 +1287,18 @@ var Vr={},Br={};var Fr=function(){function t(t,e,n){var i=this;this._sleepAfterS
                             }
                         },
                         legend: {
+                            ...mobileConfig.legend,
                             data: Object.keys(monthTotals).map(m => m + '月').sort()
                         },
-                        grid: {
-                            left: '3%',
-                            right: '4%',
-                            bottom: '8%',
-                            containLabel: true
-                        },
+                        grid: mobileConfig.grid,
                         xAxis: {
                             type: 'category',
                             data: channelNames,
                             axisLabel: {
-                                interval: 0,
-                                rotate: 30,
-                                margin: 15,
+                                ...mobileConfig.axisLabelConfig,
                                 formatter: function(value) {
-                                    return value.length > 4 ? value.substring(0, 4) + '...' : value;
+                                    return value.length > mobileConfig.axisLabelConfig.maxLength ?
+                                           value.substring(0, mobileConfig.axisLabelConfig.maxLength) + '...' : value;
                                 },
                                 tooltip: {
                                     show: true
